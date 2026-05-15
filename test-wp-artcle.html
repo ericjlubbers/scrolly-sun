@@ -1,0 +1,224 @@
+<!-- wp:html -->
+<style>
+/* ── Scrollytelling layout ───────────────────────────────────────────────── */
+
+/* Break out of the WP content column to fill full viewport width */
+.scrolly-scene {
+  position: relative;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  width: 100vw;
+  max-width: 100vw;
+}
+
+/* Sticky background container — pinned to the top for the full scroll duration */
+.scrolly-bg {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* Each image layer is absolutely stacked; GSAP drives opacity */
+.scrolly-bg-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center center;
+  will-change: opacity;
+}
+/* All layers after the first start hidden */
+.scrolly-bg-layer + .scrolly-bg-layer {
+  opacity: 0;
+}
+
+/* Steps are pulled up to overlap the sticky background */
+.scrolly-steps {
+  position: relative;
+  margin-top: -100vh;
+  z-index: 1;
+}
+
+/* Each step occupies one full viewport height of scroll distance */
+.scrolly-step {
+  height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 1.25rem 9vh;
+  box-sizing: border-box;
+}
+
+/* Floating caption card */
+.step-card {
+  max-width: 560px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.93);
+  padding: 1.25rem 1.75rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.22);
+  will-change: opacity, transform;
+}
+.step-card .step-label {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+  opacity: 0.55;
+}
+.step-card p {
+  margin: 0;
+}
+
+/* ── Reduced-motion fallback ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .step-card {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+</style>
+
+<div class="scrolly-scene">
+
+  <!-- All background images stacked; GSAP crossfades between them -->
+  <div class="scrolly-bg">
+    <div class="scrolly-bg-layer"
+         style="background-image:url('https://newspack-coloradosun.s3.amazonaws.com/wp-content/uploads/2026/05/050626-Virtual-Fence-7-659.jpg')"></div>
+    <div class="scrolly-bg-layer"
+         style="background-image:url('https://newspack-coloradosun.s3.amazonaws.com/wp-content/uploads/2026/05/sine_die_jp-8-scaled.jpg')"></div>
+    <div class="scrolly-bg-layer"
+         style="background-image:url('https://newspack-coloradosun.s3.amazonaws.com/wp-content/uploads/2026/05/sine_die_jp-10-scaled.jpg')"></div>
+  </div>
+
+  <!-- Scrollable steps — each one triggers a background swap and card animation -->
+  <div class="scrolly-steps">
+
+    <div class="scrolly-step" data-bg="0">
+      <div class="step-card">
+        <span class="step-label">Virtual Fencing · San Luis Valley</span>
+        <p>Colorado ranchers are swapping barbed wire for GPS collars, letting invisible
+        boundaries redirect cattle with an audio cue and a mild vibration. The technology
+        promises to cut fencing costs and give drought-stressed rangeland time to recover.</p>
+      </div>
+    </div>
+
+    <div class="scrolly-step" data-bg="1">
+      <div class="step-card">
+        <span class="step-label">Sine Die · Colorado State Capitol, 2026</span>
+        <p>Lawmakers packed the gallery for the final day of session, with dozens of bills
+        still awaiting votes. Water storage financing, heat pump incentives, and a sweeping
+        housing reform package all cleared the chamber in the final 48 hours.</p>
+      </div>
+    </div>
+
+    <div class="scrolly-step" data-bg="2">
+      <div class="step-card">
+        <span class="step-label">The Gavel Falls</span>
+        <p>With the adjournment of the 75th General Assembly, Colorado closed out one of
+        its most environmentally ambitious sessions in a decade — and opened a campaign
+        season that will test whether voters want more of the same.</p>
+      </div>
+    </div>
+
+  </div><!-- /.scrolly-steps -->
+
+</div><!-- /.scrolly-scene -->
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/ScrollTrigger.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  gsap.registerPlugin(ScrollTrigger);
+
+  var mm = gsap.matchMedia();
+
+  // ── Full animated experience ──────────────────────────────────────────────
+  mm.add('(prefers-reduced-motion: no-preference)', function () {
+
+    var bgLayers = gsap.utils.toArray('.scrolly-bg-layer');
+    var steps    = gsap.utils.toArray('.scrolly-step');
+
+    // Crossfade all bg layers so only `index` is visible
+    function crossfadeTo(index) {
+      bgLayers.forEach(function (layer, i) {
+        gsap.to(layer, {
+          opacity: i === index ? 1 : 0,
+          duration: 0.9,
+          ease: 'power1.inOut',
+          overwrite: 'auto'
+        });
+      });
+    }
+
+    steps.forEach(function (step, i) {
+      var card    = step.querySelector('.step-card');
+      var bgIndex = parseInt(step.getAttribute('data-bg'), 10);
+
+      // First card fades in on page load; subsequent cards animate in on scroll
+      if (i === 0) {
+        gsap.from(card, {
+          opacity: 0, y: 24, duration: 0.9, ease: 'power2.out', delay: 0.5
+        });
+      } else {
+        gsap.from(card, {
+          scrollTrigger: {
+            trigger: step,
+            start: 'top 72%',
+            toggleActions: 'play none none reverse'
+          },
+          opacity: 0, y: 24, duration: 0.6, ease: 'power2.out'
+        });
+      }
+
+      // Background crossfade fires when the step reaches mid-viewport on the way
+      // down, and restores the previous background on the way back up
+      ScrollTrigger.create({
+        trigger: step,
+        start: 'top 55%',
+        onEnter:     function () { crossfadeTo(bgIndex); },
+        onLeaveBack: function () { crossfadeTo(Math.max(0, bgIndex - 1)); }
+      });
+    });
+
+  });
+
+  // ── Reduced-motion: instant background switches, no card animation ────────
+  mm.add('(prefers-reduced-motion: reduce)', function () {
+
+    var bgLayers = gsap.utils.toArray('.scrolly-bg-layer');
+    var steps    = gsap.utils.toArray('.scrolly-step');
+
+    // Ensure all cards are visible without any transform
+    gsap.utils.toArray('.step-card').forEach(function (card) {
+      gsap.set(card, { opacity: 1, y: 0 });
+    });
+
+    // Still swap backgrounds at the right scroll points, just without a fade
+    steps.forEach(function (step) {
+      var bgIndex = parseInt(step.getAttribute('data-bg'), 10);
+      ScrollTrigger.create({
+        trigger: step,
+        start: 'top 55%',
+        onEnter: function () {
+          bgLayers.forEach(function (l, i) {
+            gsap.set(l, { opacity: i === bgIndex ? 1 : 0 });
+          });
+        },
+        onLeaveBack: function () {
+          var prev = Math.max(0, bgIndex - 1);
+          bgLayers.forEach(function (l, i) {
+            gsap.set(l, { opacity: i === prev ? 1 : 0 });
+          });
+        }
+      });
+    });
+
+  });
+
+});
+</script>
+<!-- /wp:html -->
