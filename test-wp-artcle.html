@@ -1,6 +1,8 @@
 <!-- wp:cover {"url":"https://newspack-coloradosun.s3.amazonaws.com/wp-content/uploads/2026/05/050626-Virtual-Fence-7-659.jpg","id":486273,"hasParallax":true,"dimRatio":0,"customOverlayColor":"#000000","isUserOverlayColor":true,"minHeight":100,"minHeightUnit":"vh","contentPosition":"bottom center","isDark":false,"sizeSlug":"full","align":"full","className":"tight-cover anim-hero","layout":{"type":"constrained"}} -->
 <div class="wp-block-cover alignfull is-light has-parallax has-custom-content-position is-position-bottom-center tight-cover anim-hero" style="min-height:100vh"><div class="wp-block-cover__image-background wp-image-486273 size-full has-parallax" style="background-position:50% 50%;background-image:url(https://newspack-coloradosun.s3.amazonaws.com/wp-content/uploads/2026/05/050626-Virtual-Fence-7-659.jpg)"></div><span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim" style="background-color:#000000"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"layout":{"type":"constrained"}} -->
-<div class="wp-block-group"><!-- wp:paragraph {"align":"left","className":"step-card","backgroundColor":"white"} -->
+<div class="wp-block-group"><!-- wp:html -->
+<div class="scrolly-spacer-top" aria-hidden="true"></div>
+<!-- /wp:html --><!-- wp:paragraph {"align":"left","className":"step-card","backgroundColor":"white"} -->
 <p class="has-text-align-left step-card has-white-background-color has-background">
         <strong class="step-label">Virtual Fencing · San Luis Valley</strong><br>
         Colorado ranchers are swapping barbed wire for GPS collars, letting invisible
@@ -19,7 +21,9 @@
 
 <!-- wp:cover {"url":"https://newspack-coloradosun.s3.amazonaws.com/wp-content/uploads/2026/05/sine_die_jp-8-scaled.jpg","id":486378,"hasParallax":true,"dimRatio":0,"customOverlayColor":"#000000","isUserOverlayColor":true,"minHeight":100,"minHeightUnit":"vh","contentPosition":"bottom center","isDark":false,"sizeSlug":"full","align":"full","className":"tight-cover anim-section","layout":{"type":"constrained"}} -->
 <div class="wp-block-cover alignfull is-light has-parallax has-custom-content-position is-position-bottom-center tight-cover anim-section" style="min-height:100vh"><div class="wp-block-cover__image-background wp-image-486378 size-full has-parallax" style="background-position:50% 50%;background-image:url(https://newspack-coloradosun.s3.amazonaws.com/wp-content/uploads/2026/05/sine_die_jp-8-scaled.jpg)"></div><span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim" style="background-color:#000000"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"layout":{"type":"constrained"}} -->
-<div class="wp-block-group"><!-- wp:paragraph {"align":"left","className":"step-card","backgroundColor":"white"} -->
+<div class="wp-block-group"><!-- wp:html -->
+<div class="scrolly-spacer-top" aria-hidden="true"></div>
+<!-- /wp:html --><!-- wp:paragraph {"align":"left","className":"step-card","backgroundColor":"white"} -->
 <p class="has-text-align-left step-card has-white-background-color has-background">
         <strong class="step-label">Sine Die · Colorado State Capitol, 2026</strong><br>
         Lawmakers packed the gallery for the final day of session, with dozens of bills
@@ -36,7 +40,9 @@
 
 <!-- wp:cover {"url":"https://newspack-coloradosun.s3.amazonaws.com/wp-content/uploads/2026/05/sine_die_jp-10-scaled.jpg","id":486381,"hasParallax":true,"dimRatio":0,"customOverlayColor":"#000000","isUserOverlayColor":true,"minHeight":100,"minHeightUnit":"vh","contentPosition":"bottom center","isDark":false,"sizeSlug":"full","align":"full","className":"tight-cover anim-section","layout":{"type":"constrained"}} -->
 <div class="wp-block-cover alignfull is-light has-parallax has-custom-content-position is-position-bottom-center tight-cover anim-section" style="min-height:100vh"><div class="wp-block-cover__image-background wp-image-486381 size-full has-parallax" style="background-position:50% 50%;background-image:url(https://newspack-coloradosun.s3.amazonaws.com/wp-content/uploads/2026/05/sine_die_jp-10-scaled.jpg)"></div><span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim" style="background-color:#000000"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"layout":{"type":"constrained"}} -->
-<div class="wp-block-group"><!-- wp:paragraph {"align":"left","className":"step-card","backgroundColor":"white"} -->
+<div class="wp-block-group"><!-- wp:html -->
+<div class="scrolly-spacer-top" aria-hidden="true"></div>
+<!-- /wp:html --><!-- wp:paragraph {"align":"left","className":"step-card","backgroundColor":"white"} -->
 <p class="has-text-align-left step-card has-white-background-color has-background">
         <strong class="step-label">The Gavel Falls</strong><br>
         With the adjournment of the 75th General Assembly, Colorado closed out one of
@@ -53,43 +59,18 @@
 
 <!-- wp:html -->
 <style>
-/* ── Scrollytelling: sticky Cover blocks ─────────────────────────────────── */
+/* ── Scrollytelling: native fixed-background Cover blocks ───────────────────
+   WP's has-parallax (background-attachment:fixed) keeps each image pinned to
+   the viewport while the block's content scrolls through it.
+   GSAP's only job: crossfade between covers at a configurable trigger point.  */
 
-/* Pin each cover to the top; later covers stack on top via z-index (set by GSAP).
-   overflow:visible lets the .scrolly-spacer extend the block height for dwell time. */
+/* position:relative creates a stacking context so GSAP z-index takes effect. */
 .tight-cover {
-  position: sticky;
-  top: 0;
-  overflow: visible !important;
+  position: relative;
   will-change: opacity;
 }
 
-/* Override WP's has-parallax (background-attachment:fixed) — we want the image
-   to fill the sticky container, not scroll independently. */
-.tight-cover .wp-block-cover__image-background {
-  background-attachment: scroll !important;
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100vh !important;
-}
-
-/* Re-pin the inner container so the caption card stays visible in the viewport
-   while the .scrolly-spacer below it continues to scroll. */
-.tight-cover .wp-block-cover__inner-container {
-  position: sticky;
-  top: 0;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding-bottom: 8vh;
-  box-sizing: border-box;
-  width: 100%;
-  z-index: 1;
-}
-
-/* Caption card */
+/* ── Caption card ────────────────────────────────────────────────────────── */
 .step-card {
   max-width: 560px !important;
   width: 90% !important;
@@ -110,23 +91,34 @@
   opacity: 0.55;
 }
 
-/* Spacer extends each cover's scroll height for dwell time while pinned.
-   Adjust height per-cover to control how long each image holds before transitioning. */
+/* ── Spacers ─────────────────────────────────────────────────────────────── */
+/* Top spacer: pushes card below the fold on load; increase for a later card entry */
+.scrolly-spacer-top {
+  height: 20vh;
+  width: 100%;
+  pointer-events: none;
+  user-select: none;
+}
+/* Bottom spacer: dwell time after the card exits view before the next slide triggers.
+   Increase for more time on each image; decrease for a faster transition. */
 .scrolly-spacer {
-  height: 80vh;
+  height: 60vh;
   width: 100%;
   pointer-events: none;
   user-select: none;
 }
 
-/* If sticky stops working, the theme content wrapper likely has overflow:hidden.
-   Uncomment to fix: */
-/* .entry-content, .wp-block-post-content { overflow: visible !important; } */
-
-/* ── Reduced-motion fallback ─────────────────────────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
-  .tight-cover { position: relative !important; opacity: 1 !important; }
-  .step-card    { opacity: 1 !important; transform: none !important; }
+/* ── Mobile fallback ─────────────────────────────────────────────────────── */
+/* background-attachment:fixed doesn't work on iOS Safari. Fall back to sticky. */
+@media (max-width: 768px) {
+  .tight-cover .wp-block-cover__image-background {
+    background-attachment: scroll !important;
+  }
+  .tight-cover {
+    position: sticky !important;
+    top: 0;
+    overflow: visible !important;
+  }
 }
 </style>
 
@@ -136,55 +128,35 @@
 document.addEventListener('DOMContentLoaded', function () {
   gsap.registerPlugin(ScrollTrigger);
 
-  var mm = gsap.matchMedia();
+  // ── Single tunable constant ───────────────────────────────────────────────
+  // When the next cover's top edge reaches this viewport position, the crossfade fires.
+  // 'top 80%' = fires when the next cover is 20% up from the bottom of the viewport.
+  // Increase % (e.g. 'top 90%') → fires later, closer to a hard cut.
+  // Decrease % (e.g. 'top 60%') → fires earlier, longer crossfade overlap.
+  var TRIGGER_START = 'top 80%';
 
-  // ── Full animated experience ──────────────────────────────────────────────
-  mm.add('(prefers-reduced-motion: no-preference)', function () {
+  // Skip all animation for users who prefer reduced motion
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { return; }
 
-    var covers = gsap.utils.toArray('.tight-cover');
+  var covers = gsap.utils.toArray('.tight-cover');
 
-    covers.forEach(function (cover, i) {
-      // Later covers sit on top of earlier ones
-      gsap.set(cover, { zIndex: i + 1 });
+  covers.forEach(function (cover, i) {
+    // Stack covers: later ones paint on top during the crossfade
+    gsap.set(cover, { zIndex: i + 1 });
 
-      var card = cover.querySelector('.step-card');
+    if (i === 0) { return; } // First cover is always visible
 
-      if (i === 0) {
-        // First cover is visible from page load; just animate its card in
-        gsap.from(card, { opacity: 0, y: 20, duration: 0.9, ease: 'power2.out', delay: 0.4 });
-      } else {
-        // Incoming cover fades in as it slides up into the pinned position
-        gsap.fromTo(cover,
-          { opacity: 0 },
-          {
-            opacity: 1,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: cover,
-              start: 'top 30%',
-              end: 'top top',
-              scrub: 0.6
-            }
-          }
-        );
-        // Card animates in once the cover is fully pinned at top
-        gsap.from(card, {
-          opacity: 0, y: 20,
-          scrollTrigger: {
-            trigger: cover,
-            start: 'top top',
-            toggleActions: 'play none none reverse'
-          }
-        });
-      }
+    // All subsequent covers start invisible
+    gsap.set(cover, { opacity: 0 });
+
+    // Crossfade in when this cover's top hits the trigger point,
+    // reverse when scrolling back up past it.
+    ScrollTrigger.create({
+      trigger: cover,
+      start: TRIGGER_START,
+      onEnter:     function () { gsap.to(cover, { opacity: 1, duration: 0.4, ease: 'power1.inOut' }); },
+      onLeaveBack: function () { gsap.to(cover, { opacity: 0, duration: 0.4, ease: 'power1.inOut' }); }
     });
-
-  });
-
-  // ── Reduced-motion: no animation, all covers/cards visible ───────────────
-  mm.add('(prefers-reduced-motion: reduce)', function () {
-    gsap.utils.toArray('.tight-cover').forEach(function (c) { gsap.set(c, { opacity: 1 }); });
-    gsap.utils.toArray('.step-card').forEach(function (c) { gsap.set(c, { opacity: 1, y: 0 }); });
   });
 
 });
