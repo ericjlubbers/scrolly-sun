@@ -43,12 +43,12 @@
    Only the background opacity is animated; the content (cards, spacers) scrolls
    normally above the fixed images.                                            */
 
-/* Cover blocks: transparent scroll-height containers, no stacking context
-   (no z-index, no will-change) so inner-container's z-index participates
-   in the root stacking context and paints above the fixed backgrounds.       */
+/* Cover blocks: scroll-height containers. Black background is a fallback
+   backdrop so the page background never shows through during transitions. */
 .tight-cover {
   position: relative;
   min-height: 100vh;
+  background: #000 !important;
 }
 
 /* Cards and spacers must paint ABOVE the fixed background layers (z-index 1-N). */
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // 'bottom top' = fires the instant the card bottom crosses the viewport top.
   // 'bottom 10%' = fires earlier for more lead time.
   var CARD_EXIT    = 'bottom 5%';
-  var FADE_DURATION = 0.4;  // seconds
+  var FADE_DURATION = 0.25; // seconds — keep short so it reads as a cut, not a blend
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { return; }
   // Skip fixed-bg approach on mobile — CSS sticky fallback handles it.
@@ -163,25 +163,27 @@ document.addEventListener('DOMContentLoaded', function () {
     ScrollTrigger.create({
       trigger: prevCard,
       start: CARD_EXIT,
-      // Incoming slide fades in; outgoing slide fades out simultaneously.
-      onEnter: function () {
-        gsap.to(bgs[i],     { opacity: 1, duration: FADE_DURATION, ease: 'power1.inOut' });
-        gsap.to(bgs[i - 1], { opacity: 0, duration: FADE_DURATION, ease: 'power1.inOut' });
-      },
-      // Reverse when scrolling back up.
-      onLeaveBack: function () {
-        gsap.to(bgs[i],     { opacity: 0, duration: FADE_DURATION, ease: 'power1.inOut' });
-        gsap.to(bgs[i - 1], { opacity: 1, duration: FADE_DURATION, ease: 'power1.inOut' });
-      }
+      // Only fade IN the incoming slide — it sits on top (higher z-index) and
+      // dissolves over the outgoing, which stays fully opaque. This prevents any
+      // white-page bleed that occurs when both images are at partial opacity.
+      onEnter:     function () { gsap.to(bgs[i], { opacity: 1, duration: FADE_DURATION, ease: 'power1.inOut' }); },
+      // On scroll-back, fade the incoming back out to reveal the previous slide.
+      onLeaveBack: function () { gsap.to(bgs[i], { opacity: 0, duration: FADE_DURATION, ease: 'power1.inOut' }); }
     });
   });
 
-  // ── Exit: fade out last background when the sequence ends ─────────────────
-  // Prevents the last image from floating over article content that follows.
+  // ── Exit: clear ALL backgrounds when the sequence ends ────────────────────
+  // Because we never faded out the outgoing slides, all bgs are opacity:1 by
+  // the end. Fade them all out so they don't bleed over content below.
   ScrollTrigger.create({
     trigger: covers[covers.length - 1],
-    start: 'bottom top',   // last cover's bottom exits the viewport top
-    onEnter:     function () { gsap.to(bgs[bgs.length - 1], { opacity: 0, duration: FADE_DURATION, ease: 'power1.inOut' }); },
+    start: 'bottom top',
+    onEnter: function () {
+      bgs.forEach(function (bg) {
+        gsap.to(bg, { opacity: 0, duration: FADE_DURATION, ease: 'power1.inOut' });
+      });
+    },
+    // On scroll-back into the sequence, restore just the last slide.
     onLeaveBack: function () { gsap.to(bgs[bgs.length - 1], { opacity: 1, duration: FADE_DURATION, ease: 'power1.inOut' }); }
   });
 
