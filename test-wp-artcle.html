@@ -1,79 +1,28 @@
-<!-- wp:cover {"url":"https://newspack-coloradosun.s3.amazonaws.com/wp-content/uploads/2026/05/050626-Virtual-Fence-7-659.jpg","id":486273,"hasParallax":true,"dimRatio":0,"customOverlayColor":"#000000","isUserOverlayColor":true,"minHeight":100,"minHeightUnit":"vh","contentPosition":"bottom center","isDark":false,"sizeSlug":"full","align":"full","className":"tight-cover anim-hero","layout":{"type":"constrained"}} -->
-<div class="wp-block-cover alignfull is-light has-parallax has-custom-content-position is-position-bottom-center tight-cover anim-hero" style="min-height:100vh"><div class="wp-block-cover__image-background wp-image-486273 size-full has-parallax" style="background-position:50% 50%;background-image:url(https://newspack-coloradosun.s3.amazonaws.com/wp-content/uploads/2026/05/050626-Virtual-Fence-7-659.jpg)"></div><span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim" style="background-color:#000000"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"layout":{"type":"constrained"}} -->
-<div class="wp-block-group"><!-- wp:html -->
-<div class="scrolly-spacer-top" aria-hidden="true"></div>
-<!-- /wp:html --><!-- wp:paragraph {"align":"left","className":"step-card","backgroundColor":"white"} -->
-<p class="has-text-align-left step-card has-white-background-color has-background">
-        <strong class="step-label">Virtual Fencing · San Luis Valley</strong><br>
-        Colorado ranchers are swapping barbed wire for GPS collars, letting invisible
-        boundaries redirect cattle with an audio cue and a mild vibration. The technology
-        promises to cut fencing costs and give drought-stressed rangeland time to recover.
-      </p>
-<!-- /wp:paragraph -->
-
-<!-- wp:html -->
-<!-- Spacer: controls how long this cover stays pinned before the next one arrives.
-           Increase height for more dwell time; decrease for a faster transition. -->
-      <div class="scrolly-spacer" aria-hidden="true"></div>
-<!-- /wp:html --></div>
-<!-- /wp:group --></div></div>
-<!-- /wp:cover -->
-
-<!-- wp:cover {"url":"https://newspack-coloradosun.s3.amazonaws.com/wp-content/uploads/2026/05/sine_die_jp-8-scaled.jpg","id":486378,"hasParallax":true,"dimRatio":0,"customOverlayColor":"#000000","isUserOverlayColor":true,"minHeight":100,"minHeightUnit":"vh","contentPosition":"bottom center","isDark":false,"sizeSlug":"full","align":"full","className":"tight-cover anim-section","layout":{"type":"constrained"}} -->
-<div class="wp-block-cover alignfull is-light has-parallax has-custom-content-position is-position-bottom-center tight-cover anim-section" style="min-height:100vh"><div class="wp-block-cover__image-background wp-image-486378 size-full has-parallax" style="background-position:50% 50%;background-image:url(https://newspack-coloradosun.s3.amazonaws.com/wp-content/uploads/2026/05/sine_die_jp-8-scaled.jpg)"></div><span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim" style="background-color:#000000"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"layout":{"type":"constrained"}} -->
-<div class="wp-block-group"><!-- wp:html -->
-<div class="scrolly-spacer-top" aria-hidden="true"></div>
-<!-- /wp:html --><!-- wp:paragraph {"align":"left","className":"step-card","backgroundColor":"white"} -->
-<p class="has-text-align-left step-card has-white-background-color has-background">
-        <strong class="step-label">Sine Die · Colorado State Capitol, 2026</strong><br>
-        Lawmakers packed the gallery for the final day of session, with dozens of bills
-        still awaiting votes. Water storage financing, heat pump incentives, and a sweeping
-        housing reform package all cleared the chamber in the final 48 hours.
-      </p>
-<!-- /wp:paragraph -->
-
-<!-- wp:html -->
-<div class="scrolly-spacer" aria-hidden="true"></div>
-<!-- /wp:html --></div>
-<!-- /wp:group --></div></div>
-<!-- /wp:cover -->
-
-<!-- wp:cover {"url":"https://newspack-coloradosun.s3.amazonaws.com/wp-content/uploads/2026/05/sine_die_jp-10-scaled.jpg","id":486381,"hasParallax":true,"dimRatio":0,"customOverlayColor":"#000000","isUserOverlayColor":true,"minHeight":100,"minHeightUnit":"vh","contentPosition":"bottom center","isDark":false,"sizeSlug":"full","align":"full","className":"tight-cover anim-section","layout":{"type":"constrained"}} -->
-<div class="wp-block-cover alignfull is-light has-parallax has-custom-content-position is-position-bottom-center tight-cover anim-section" style="min-height:100vh"><div class="wp-block-cover__image-background wp-image-486381 size-full has-parallax" style="background-position:50% 50%;background-image:url(https://newspack-coloradosun.s3.amazonaws.com/wp-content/uploads/2026/05/sine_die_jp-10-scaled.jpg)"></div><span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim" style="background-color:#000000"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"layout":{"type":"constrained"}} -->
-<div class="wp-block-group"><!-- wp:html -->
-<div class="scrolly-spacer-top" aria-hidden="true"></div>
-<!-- /wp:html --><!-- wp:paragraph {"align":"left","className":"step-card","backgroundColor":"white"} -->
-<p class="has-text-align-left step-card has-white-background-color has-background">
-        <strong class="step-label">The Gavel Falls</strong><br>
-        With the adjournment of the 75th General Assembly, Colorado closed out one of
-        its most environmentally ambitious sessions in a decade — and opened a campaign
-        season that will test whether voters want more of the same.
-      </p>
-<!-- /wp:paragraph -->
-
-<!-- wp:html -->
-<div class="scrolly-spacer" aria-hidden="true"></div>
-<!-- /wp:html --></div>
-<!-- /wp:group --></div></div>
-<!-- /wp:cover -->
-
-<!-- wp:html -->
 <style>
-/* ── Scrollytelling: native fixed-background Cover blocks ───────────────────
-   WP's has-parallax (background-attachment:fixed) keeps each image pinned to
-   the viewport while the block's content scrolls through it.
-   GSAP's only job: crossfade between covers at a configurable trigger point.  */
+/* ── Scrollytelling: PowerPoint-style fixed-background Cover blocks ─────────
+   Each .tight-cover is a transparent scroll-height driver in the normal flow.
+   GSAP pulls the .wp-block-cover__image-background divs to position:fixed so
+   they always fill the full viewport — like slides behind the scrolling content.
+   Only the background opacity is animated; the content (cards, spacers) scrolls
+   normally above the fixed images.                                            */
 
-/* position:relative creates a stacking context so GSAP z-index takes effect. */
+/* Cover blocks: transparent scroll-height containers, no stacking context
+   (no z-index, no will-change) so inner-container's z-index participates
+   in the root stacking context and paints above the fixed backgrounds.       */
 .tight-cover {
   position: relative;
-  will-change: opacity;
+  min-height: 100vh;
 }
-/* Covers 2+ are pulled up by one viewport height to overlap the previous cover.
-   This gives both covers full-viewport presence simultaneously, enabling a
-   clean full-screen crossfade instead of a split-screen scroll. */
-.tight-cover + .tight-cover {
-  margin-top: calc(-100vh);
+
+/* Cards and spacers must paint ABOVE the fixed background layers (z-index 1-N). */
+.tight-cover .wp-block-cover__inner-container {
+  position: relative;
+  z-index: 100;
+}
+
+/* Hide WP's dim overlay (dimRatio is 0 on all covers anyway). */
+.tight-cover .wp-block-cover__background {
+  display: none !important;
 }
 
 /* ── Caption card ────────────────────────────────────────────────────────── */
@@ -98,32 +47,35 @@
 }
 
 /* ── Spacers ─────────────────────────────────────────────────────────────── */
-/* Top spacer: pushes card below the fold on load; increase for a later card entry */
+/* Top spacer: time before the card enters from the bottom of the viewport. */
 .scrolly-spacer-top {
-  height: 20vh;
+  height: 60vh;
   width: 100%;
   pointer-events: none;
   user-select: none;
 }
-/* Bottom spacer: dwell time after the card exits view before the next slide triggers.
-   Increase for more time on each image; decrease for a faster transition. */
+/* Bottom spacer: dwell time on each image after the card exits before the
+   next card arrives. Increase for more breathing room between slides. */
 .scrolly-spacer {
-  height: 60vh;
+  height: 100vh;
   width: 100%;
   pointer-events: none;
   user-select: none;
 }
 
 /* ── Mobile fallback ─────────────────────────────────────────────────────── */
-/* background-attachment:fixed doesn't work on iOS Safari. Fall back to sticky. */
+/* JS skips the fixed-bg approach on mobile. Reset backgrounds to their
+   default block positions and fall back to sticky covers. */
 @media (max-width: 768px) {
   .tight-cover .wp-block-cover__image-background {
+    position: absolute !important;
+    inset: 0 !important;
     background-attachment: scroll !important;
   }
   .tight-cover {
     position: sticky !important;
     top: 0;
-    overflow: visible !important;
+    overflow: hidden !important;
   }
 }
 </style>
@@ -134,45 +86,67 @@
 document.addEventListener('DOMContentLoaded', function () {
   gsap.registerPlugin(ScrollTrigger);
 
-  // ── Single tunable constant ───────────────────────────────────────────────
-  // Fires when the CAPTION CARD inside the previous cover scrolls off the top.
-  // 'bottom 5%'  = fires just before the card fully exits (default — tiny head start).
+  // ── Tunable constants ─────────────────────────────────────────────────────
+  // Fires when the previous cover's caption card scrolls off the top.
+  // 'bottom 5%'  = fires just before the card fully exits (tiny head start on the fade).
   // 'bottom top' = fires the instant the card bottom crosses the viewport top.
-  // 'bottom 10%' = fires earlier, more lead time for the fade.
-  var CARD_EXIT = 'bottom 5%';
+  // 'bottom 10%' = fires earlier for more lead time.
+  var CARD_EXIT    = 'bottom 5%';
+  var FADE_DURATION = 0.4;  // seconds
 
-  // Skip all animation for users who prefer reduced motion
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { return; }
+  // Skip fixed-bg approach on mobile — CSS sticky fallback handles it.
+  if (window.matchMedia('(max-width: 768px)').matches) { return; }
 
   var covers = gsap.utils.toArray('.tight-cover');
 
+  // ── Pull each background image div to position:fixed ─────────────────────
+  // They now permanently fill the full viewport like PowerPoint slides.
+  // GSAP z-index stacks them in order; only opacity changes during transitions.
+  var bgs = covers.map(function (cover, i) {
+    var bg = cover.querySelector('.wp-block-cover__image-background');
+    gsap.set(bg, {
+      position: 'fixed',
+      top: 0, left: 0,
+      width: '100%', height: '100%',
+      backgroundAttachment: 'scroll', // position:fixed replaces bg-attachment:fixed
+      backgroundSize: 'cover',
+      zIndex: i + 1,
+      opacity: i === 0 ? 1 : 0        // only the first slide is visible on load
+    });
+    return bg;
+  });
+
+  // ── Crossfade triggers ────────────────────────────────────────────────────
   covers.forEach(function (cover, i) {
-    // Stack covers: later ones paint on top during the crossfade
-    gsap.set(cover, { zIndex: i + 1 });
+    if (i === 0) { return; }
 
-    if (i === 0) { return; } // First cover is always visible
+    var prevCard = covers[i - 1].querySelector('.step-card');
 
-    // All subsequent covers start invisible
-    gsap.set(cover, { opacity: 0 });
-
-    // True crossfade: outgoing cover fades out as incoming cover fades in simultaneously.
-    // Reverse both when scrolling back down.
-    var prevCover = covers[i - 1];
-    var prevCard  = prevCover.querySelector('.step-card');
     ScrollTrigger.create({
       trigger: prevCard,
       start: CARD_EXIT,
+      // Incoming slide fades in; outgoing slide fades out simultaneously.
       onEnter: function () {
-        gsap.to(cover,     { opacity: 1, duration: 0.4, ease: 'power1.inOut' });
-        gsap.to(prevCover, { opacity: 0, duration: 0.4, ease: 'power1.inOut' });
+        gsap.to(bgs[i],     { opacity: 1, duration: FADE_DURATION, ease: 'power1.inOut' });
+        gsap.to(bgs[i - 1], { opacity: 0, duration: FADE_DURATION, ease: 'power1.inOut' });
       },
+      // Reverse when scrolling back up.
       onLeaveBack: function () {
-        gsap.to(cover,     { opacity: 0, duration: 0.4, ease: 'power1.inOut' });
-        gsap.to(prevCover, { opacity: 1, duration: 0.4, ease: 'power1.inOut' });
+        gsap.to(bgs[i],     { opacity: 0, duration: FADE_DURATION, ease: 'power1.inOut' });
+        gsap.to(bgs[i - 1], { opacity: 1, duration: FADE_DURATION, ease: 'power1.inOut' });
       }
     });
   });
 
+  // ── Exit: fade out last background when the sequence ends ─────────────────
+  // Prevents the last image from floating over article content that follows.
+  ScrollTrigger.create({
+    trigger: covers[covers.length - 1],
+    start: 'bottom top',   // last cover's bottom exits the viewport top
+    onEnter:     function () { gsap.to(bgs[bgs.length - 1], { opacity: 0, duration: FADE_DURATION, ease: 'power1.inOut' }); },
+    onLeaveBack: function () { gsap.to(bgs[bgs.length - 1], { opacity: 1, duration: FADE_DURATION, ease: 'power1.inOut' }); }
+  });
+
 });
 </script>
-<!-- /wp:html -->
