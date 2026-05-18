@@ -135,11 +135,11 @@ document.addEventListener('DOMContentLoaded', function () {
   gsap.registerPlugin(ScrollTrigger);
 
   // ── Single tunable constant ───────────────────────────────────────────────
-  // Fires when the PREVIOUS cover's bottom reaches this point in the viewport.
-  // 'bottom center' = fires when the outgoing cover's bottom hits the mid-screen.
-  // 'bottom 30%'    → fires earlier (more overlap/fade time).
-  // 'bottom 70%'    → fires later (closer to a hard cut).
-  var TRANSITION_POINT = 'bottom center';
+  // Fires when the CAPTION CARD inside the previous cover scrolls off the top.
+  // 'bottom 5%'  = fires just before the card fully exits (default — tiny head start).
+  // 'bottom top' = fires the instant the card bottom crosses the viewport top.
+  // 'bottom 10%' = fires earlier, more lead time for the fade.
+  var CARD_EXIT = 'bottom 5%';
 
   // Skip all animation for users who prefer reduced motion
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { return; }
@@ -155,11 +155,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // All subsequent covers start invisible
     gsap.set(cover, { opacity: 0 });
 
-    // Crossfade in when the PREVIOUS cover's bottom hits the transition point.
-    // Reverse when scrolling back up past it.
+    // Fire the crossfade when the previous cover's caption card exits the top.
+    // Reverse when scrolling back down and the card re-enters from the top.
+    var prevCard = covers[i - 1].querySelector('.step-card');
     ScrollTrigger.create({
-      trigger: covers[i - 1],
-      start: TRANSITION_POINT,
+      trigger: prevCard,
+      start: CARD_EXIT,
       onEnter:     function () { gsap.to(cover, { opacity: 1, duration: 0.4, ease: 'power1.inOut' }); },
       onLeaveBack: function () { gsap.to(cover, { opacity: 0, duration: 0.4, ease: 'power1.inOut' }); }
     });
