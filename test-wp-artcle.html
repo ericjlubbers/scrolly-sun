@@ -155,14 +155,21 @@ document.addEventListener('DOMContentLoaded', function () {
     // All subsequent covers start invisible
     gsap.set(cover, { opacity: 0 });
 
-    // Fire the crossfade when the previous cover's caption card exits the top.
-    // Reverse when scrolling back down and the card re-enters from the top.
-    var prevCard = covers[i - 1].querySelector('.step-card');
+    // True crossfade: outgoing cover fades out as incoming cover fades in simultaneously.
+    // Reverse both when scrolling back down.
+    var prevCover = covers[i - 1];
+    var prevCard  = prevCover.querySelector('.step-card');
     ScrollTrigger.create({
       trigger: prevCard,
       start: CARD_EXIT,
-      onEnter:     function () { gsap.to(cover, { opacity: 1, duration: 0.4, ease: 'power1.inOut' }); },
-      onLeaveBack: function () { gsap.to(cover, { opacity: 0, duration: 0.4, ease: 'power1.inOut' }); }
+      onEnter: function () {
+        gsap.to(cover,     { opacity: 1, duration: 0.4, ease: 'power1.inOut' });
+        gsap.to(prevCover, { opacity: 0, duration: 0.4, ease: 'power1.inOut' });
+      },
+      onLeaveBack: function () {
+        gsap.to(cover,     { opacity: 0, duration: 0.4, ease: 'power1.inOut' });
+        gsap.to(prevCover, { opacity: 1, duration: 0.4, ease: 'power1.inOut' });
+      }
     });
   });
 
